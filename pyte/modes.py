@@ -57,3 +57,8 @@ DECAWM = 7 << 5
 #: *Column Mode*: selects the number of columns per line (80 or 132)
 #: on the screen.
 DECCOLM = 3 << 5
+
+#: *Cursor Key Mode*: when set, the cursor keys send an ESC O prefix,
+#: rather than ESC [.
+DECCKM = 1 << 5
+

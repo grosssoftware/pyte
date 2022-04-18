@@ -109,13 +109,14 @@ class Cursor:
         :meth:`~pyte.screens.Screen.select_graphic_rendition`
         for details).
     """
-    __slots__ = ("x", "y", "attrs", "hidden")
+    __slots__ = ("x", "y", "attrs", "hidden", "app_mode")
 
     def __init__(self, x, y, attrs=Char(" ")):
         self.x = x
         self.y = y
         self.attrs = attrs
         self.hidden = False
+        self.app_mode = False
 
 
 class StaticDefaultDict(dict):
@@ -397,6 +398,10 @@ class Screen:
         if mo.DECTCEM in modes:
             self.cursor.hidden = False
 
+        # Set the cursor key mode to application mode.
+        if mo.DECCKM in modes:
+            self.cursor.app_mode = True
+
     def reset_mode(self, *modes, **kwargs):
         """Reset (disable) a given list of modes.
 
@@ -434,6 +439,10 @@ class Screen:
         # Hide the cursor.
         if mo.DECTCEM in modes:
             self.cursor.hidden = True
+
+        # Set the cursor key mode to normal mode.
+        if mo.DECCKM in modes:
+            self.cursor.app_mode = False
 
     def define_charset(self, code, mode):
         """Define ``G0`` or ``G1`` charset.
